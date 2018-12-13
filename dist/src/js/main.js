@@ -51,11 +51,11 @@ const helpers_1 = require("../../modules/helpers");
         }
         document.documentElement.classList.remove(settings.initClass);
         document.removeEventListener('click', eventHandler, false);
-        settings = null;
-        eventTimeout = null;
         if (typeof settings.callbackOnDestroyAfter === 'function') {
             settings.callbackOnDestroyAfter.call(this);
         }
+        settings = null;
+        eventTimeout = null;
     };
     const eventThrottler = function () {
         if (!eventTimeout) {

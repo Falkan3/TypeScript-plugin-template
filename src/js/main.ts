@@ -117,14 +117,14 @@ declare const module: any;
         // Remove event listeners
         document.removeEventListener('click', eventHandler, false);
 
-        // Reset variables
-        settings = null;
-        eventTimeout = null;
-
         // On Destroy After callback
         if (typeof settings.callbackOnDestroyAfter === 'function') {
             settings.callbackOnDestroyAfter.call(this);
         }
+
+        // Reset variables
+        settings = null;
+        eventTimeout = null;
     };
 
     /**

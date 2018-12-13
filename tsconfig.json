@@ -12,6 +12,7 @@
     "node_modules"
   ],
   "files": [
-    "src/js/main.ts"
+    "src/js/main.ts",
+    "src/js/constructor.ts"
   ]
 }
