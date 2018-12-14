@@ -192,6 +192,7 @@ const helpers_1 = require("../../modules/helpers");
                 }, this);
             }
         };
+        return TWD_SIPR;
     };
     return Constructor;
 });

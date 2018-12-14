@@ -207,6 +207,9 @@ declare const module: any;
                 }, this);
             }
         };
+
+        // Return the public APIs
+        return TWD_SIPR;
     };
 
     //
