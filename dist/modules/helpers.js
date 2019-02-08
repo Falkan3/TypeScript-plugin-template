@@ -4,15 +4,15 @@ class Helpers {
     constructor(pluginName = '') {
         this.pluginName = pluginName;
     }
-    IsArray(item) {
+    static IsArray(item) {
         return (item && Array.isArray(item));
     }
     ;
-    IsObject(item) {
+    static IsObject(item) {
         return (item && typeof item === 'object' && !Array.isArray(item));
     }
     ;
-    ForEach(collection, callback, scope) {
+    static ForEach(collection, callback, scope) {
         if (Object.prototype.toString.call(collection) === '[object Object]') {
             for (let prop in collection) {
                 if (Object.prototype.hasOwnProperty.call(collection, prop)) {
@@ -27,7 +27,7 @@ class Helpers {
         }
     }
     ;
-    Extend(defaults, options) {
+    static Extend(defaults, options) {
         const extended = {};
         this.ForEach(defaults, function (value, prop) {
             extended[prop] = defaults[prop];
@@ -38,11 +38,11 @@ class Helpers {
         return extended;
     }
     ;
-    GetDataOptions(options) {
+    static GetDataOptions(options) {
         return !options || !(typeof JSON === 'object' && typeof JSON.parse === 'function') ? {} : JSON.parse(options);
     }
     ;
-    GetClosest(elem, selector) {
+    static GetClosest(elem, selector) {
         const firstChar = selector.charAt(0);
         for (; elem && elem !== document; elem = elem.parentNode) {
             if (firstChar === '.') {

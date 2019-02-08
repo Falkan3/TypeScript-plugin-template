@@ -39,7 +39,7 @@ const helpers_1 = require("../../modules/helpers");
     const helpers = new helpers_1.Helpers(pluginName);
     const eventHandler = function (event) {
         const toggle = event.target;
-        const closest = helpers.GetClosest(toggle, '[data-some-selector]');
+        const closest = helpers_1.Helpers.GetClosest(toggle, '[data-some-selector]');
         if (closest) {
         }
     };
@@ -68,7 +68,7 @@ const helpers_1 = require("../../modules/helpers");
         if (!supports)
             return;
         TWD_SIPR.destroy();
-        settings = helpers.Extend(defaults, options || {});
+        settings = helpers_1.Helpers.Extend(defaults, options || {});
         document.documentElement.classList.add(settings.initClass);
         helpers.Log('error message', 'error');
         helpers.Log('warning message', 'warning');
@@ -83,8 +83,8 @@ const helpers_1 = require("../../modules/helpers");
         if (typeof callback === 'function') {
             callback.call(this);
         }
-        if (helpers.IsArray(callbackArray)) {
-            helpers.ForEach(callbackArray, function (value, prop) {
+        if (helpers_1.Helpers.IsArray(callbackArray)) {
+            helpers_1.Helpers.ForEach(callbackArray, function (value, prop) {
                 if (typeof callbackArray[prop] === 'function') {
                     callbackArray[prop].call(this);
                 }

@@ -89,7 +89,7 @@ declare const module: any;
      */
     const eventHandler = function (event) {
         const toggle = event.target;
-        const closest = helpers.GetClosest(toggle, '[data-some-selector]');
+        const closest = Helpers.GetClosest(toggle, '[data-some-selector]');
         if (closest) {
             // run methods
         }
@@ -155,7 +155,7 @@ declare const module: any;
         TWD_SIPR.destroy();
 
         // Merge user options with defaults
-        settings = helpers.Extend(defaults, options || {});
+        settings = Helpers.Extend(defaults, options || {});
 
         // Add class to HTML element to activate conditional CSS
         document.documentElement.classList.add(settings.initClass);
@@ -184,8 +184,8 @@ declare const module: any;
         if (typeof callback === 'function') {
             callback.call(this);
         }
-        if(helpers.IsArray(callbackArray)) {
-            helpers.ForEach(callbackArray, function(value, prop) {
+        if(Helpers.IsArray(callbackArray)) {
+            Helpers.ForEach(callbackArray, function(value, prop) {
                 if (typeof callbackArray[prop] === 'function') {
                     callbackArray[prop].call(this);
                 }

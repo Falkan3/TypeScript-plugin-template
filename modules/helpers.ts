@@ -17,7 +17,7 @@ export class Helpers {
      * @param {Array} item The item to be checked
      * @returns {Boolean}
      */
-    public IsArray  (item: Array<any>) {
+    public static IsArray  (item: Array<any>) {
         return (item && Array.isArray(item));
     };
 
@@ -27,7 +27,7 @@ export class Helpers {
      * @param {Object} item The item to be checked
      * @returns {Boolean}
      */
-    public IsObject  (item: object) {
+    public static IsObject  (item: object) {
         return (item && typeof item === 'object' && !Array.isArray(item));
     };
 
@@ -38,7 +38,7 @@ export class Helpers {
      * @param {Function} callback Callback function for each iteration
      * @param {Array|Object|NodeList} scope Object/NodeList/Array that forEach is iterating over (aka `this`)
      */
-    public ForEach(collection, callback: (value, prop) => void, scope) {
+    public static ForEach(collection, callback: (value, prop) => void, scope) {
         if (Object.prototype.toString.call(collection) === '[object Object]') {
             for (let prop in collection) {
                 if (Object.prototype.hasOwnProperty.call(collection, prop)) {
@@ -59,7 +59,7 @@ export class Helpers {
      * @param {Object} options User options
      * @returns {Object} Merged values of defaults and options
      */
-    public Extend(defaults, options) {
+    public static Extend(defaults, options) {
         const extended = {};
         this.ForEach(defaults, function (value, prop) {
             extended[prop] = defaults[prop];
@@ -76,7 +76,7 @@ export class Helpers {
      * @param {String} options Link-specific options as a data attribute string
      * @returns {Object}
      */
-    public GetDataOptions(options: string) {
+    public static GetDataOptions(options: string) {
         return !options || !(typeof JSON === 'object' && typeof JSON.parse === 'function') ? {} : JSON.parse(options);
     };
 
@@ -86,7 +86,7 @@ export class Helpers {
      * @param {String} selector Selector to match against (class, ID, or data attribute)
      * @return {Boolean|Element} Returns false if not match found
      */
-    public GetClosest(elem, selector: string) {
+    public static GetClosest(elem, selector: string) {
         const firstChar = selector.charAt(0);
         for (; elem && elem !== document; elem = elem.parentNode) {
             if (firstChar === '.') {

@@ -5,15 +5,15 @@ class Helpers {
     constructor(pluginName = '') {
         this.pluginName = pluginName;
     }
-    IsArray(item) {
+    static IsArray(item) {
         return (item && Array.isArray(item));
     }
     ;
-    IsObject(item) {
+    static IsObject(item) {
         return (item && typeof item === 'object' && !Array.isArray(item));
     }
     ;
-    ForEach(collection, callback, scope) {
+    static ForEach(collection, callback, scope) {
         if (Object.prototype.toString.call(collection) === '[object Object]') {
             for (let prop in collection) {
                 if (Object.prototype.hasOwnProperty.call(collection, prop)) {
@@ -28,7 +28,7 @@ class Helpers {
         }
     }
     ;
-    Extend(defaults, options) {
+    static Extend(defaults, options) {
         const extended = {};
         this.ForEach(defaults, function (value, prop) {
             extended[prop] = defaults[prop];
@@ -39,11 +39,11 @@ class Helpers {
         return extended;
     }
     ;
-    GetDataOptions(options) {
+    static GetDataOptions(options) {
         return !options || !(typeof JSON === 'object' && typeof JSON.parse === 'function') ? {} : JSON.parse(options);
     }
     ;
-    GetClosest(elem, selector) {
+    static GetClosest(elem, selector) {
         const firstChar = selector.charAt(0);
         for (; elem && elem !== document; elem = elem.parentNode) {
             if (firstChar === '.') {
@@ -139,7 +139,7 @@ const helpers_1 = require("../../modules/helpers");
     const helpers = new helpers_1.Helpers(pluginName);
     const eventHandler = function (event) {
         const toggle = event.target;
-        const closest = helpers.GetClosest(toggle, '[data-some-selector]');
+        const closest = helpers_1.Helpers.GetClosest(toggle, '[data-some-selector]');
         if (closest) {
         }
     };
@@ -151,11 +151,11 @@ const helpers_1 = require("../../modules/helpers");
         }
         document.documentElement.classList.remove(settings.initClass);
         document.removeEventListener('click', eventHandler, false);
-        settings = null;
-        eventTimeout = null;
         if (typeof settings.callbackOnDestroyAfter === 'function') {
             settings.callbackOnDestroyAfter.call(this);
         }
+        settings = null;
+        eventTimeout = null;
     };
     const eventThrottler = function () {
         if (!eventTimeout) {
@@ -168,7 +168,7 @@ const helpers_1 = require("../../modules/helpers");
         if (!supports)
             return;
         TWD_SIPR.destroy();
-        settings = helpers.Extend(defaults, options || {});
+        settings = helpers_1.Helpers.Extend(defaults, options || {});
         document.documentElement.classList.add(settings.initClass);
         helpers.Log('error message', 'error');
         helpers.Log('warning message', 'warning');
@@ -183,8 +183,8 @@ const helpers_1 = require("../../modules/helpers");
         if (typeof callback === 'function') {
             callback.call(this);
         }
-        if (helpers.IsArray(callbackArray)) {
-            helpers.ForEach(callbackArray, function (value, prop) {
+        if (helpers_1.Helpers.IsArray(callbackArray)) {
+            helpers_1.Helpers.ForEach(callbackArray, function (value, prop) {
                 if (typeof callbackArray[prop] === 'function') {
                     callbackArray[prop].call(this);
                 }
