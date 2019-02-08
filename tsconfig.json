@@ -6,10 +6,10 @@
     "removeComments": true,
     "preserveConstEnums": true,
     "sourceMap": true,
-    "outDir": "dist/js"
+    "outDir": "dist/js/"
   },
   "exclude": [
-    "node_modules"
+    "node_modules", "src/js/modules"
   ],
   "files": [
     "src/js/main.ts",
