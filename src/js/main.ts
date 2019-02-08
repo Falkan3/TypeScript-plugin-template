@@ -17,7 +17,7 @@
  */
 
 // standard modules
-import { Helpers } from "../../modules/helpers";
+import { Helpers } from "./modules/helpers";
 // custom modules
 
 

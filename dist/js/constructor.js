@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const helpers_1 = require("../../modules/helpers");
+const helpers_1 = require("./modules/helpers");
 (function (root, factory) {
     if (typeof define === 'function' && define.amd) {
         define([], factory(root));

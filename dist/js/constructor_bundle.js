@@ -1,106 +1,8 @@
 (function(){function r(e,n,t){function o(i,f){if(!n[i]){if(!e[i]){var c="function"==typeof require&&require;if(!f&&c)return c(i,!0);if(u)return u(i,!0);var a=new Error("Cannot find module '"+i+"'");throw a.code="MODULE_NOT_FOUND",a}var p=n[i]={exports:{}};e[i][0].call(p.exports,function(r){var n=e[i][1][r];return o(n||r)},p,p.exports,r,e,n,t)}return n[i].exports}for(var u="function"==typeof require&&require,i=0;i<t.length;i++)o(t[i]);return o}return r})()({1:[function(require,module,exports){
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-class Helpers {
-    constructor(pluginName = '') {
-        this.pluginName = pluginName;
-    }
-    static IsArray(item) {
-        return (item && Array.isArray(item));
-    }
-    ;
-    static IsObject(item) {
-        return (item && typeof item === 'object' && !Array.isArray(item));
-    }
-    ;
-    static ForEach(collection, callback, scope) {
-        if (Object.prototype.toString.call(collection) === '[object Object]') {
-            for (let prop in collection) {
-                if (Object.prototype.hasOwnProperty.call(collection, prop)) {
-                    callback.call(scope, collection[prop], prop, collection);
-                }
-            }
-        }
-        else {
-            for (let i = 0, len = collection.length; i < len; i++) {
-                callback.call(scope, collection[i], i, collection);
-            }
-        }
-    }
-    ;
-    static Extend(defaults, options) {
-        const extended = {};
-        this.ForEach(defaults, function (value, prop) {
-            extended[prop] = defaults[prop];
-        }, undefined);
-        this.ForEach(options, function (value, prop) {
-            extended[prop] = options[prop];
-        }, undefined);
-        return extended;
-    }
-    ;
-    static GetDataOptions(options) {
-        return !options || !(typeof JSON === 'object' && typeof JSON.parse === 'function') ? {} : JSON.parse(options);
-    }
-    ;
-    static GetClosest(elem, selector) {
-        const firstChar = selector.charAt(0);
-        for (; elem && elem !== document; elem = elem.parentNode) {
-            if (firstChar === '.') {
-                if (elem.classList.contains(selector.substr(1))) {
-                    return elem;
-                }
-            }
-            else if (firstChar === '#') {
-                if (elem.id === selector.substr(1)) {
-                    return elem;
-                }
-            }
-            else if (firstChar === '[') {
-                if (elem.hasAttribute(selector.substr(1, selector.length - 2))) {
-                    return elem;
-                }
-            }
-        }
-        return false;
-    }
-    ;
-    Log(msg, msgType) {
-        let styling = '';
-        console.log('%c>>>>>>>>>>>>>>>>>>', 'color: #ddd;');
-        console.log('%c' + this.pluginName, 'font-size: 14px;');
-        switch (msgType) {
-            case 'error':
-                styling = 'color: #f00;';
-                console.log('%c' + 'ERROR', styling);
-                break;
-            case 'warning':
-                styling = 'color: #f8e424;';
-                console.log('%c' + 'WARNING', styling);
-                break;
-            case 'info':
-                styling = 'color: #00f;';
-                console.log('%c' + 'INFO', styling);
-                break;
-            case 'success':
-                styling = 'color: #0f0;';
-                console.log('%c' + 'ERROR', styling);
-                break;
-            default:
-                styling = 'color: #8f8f8f;';
-                break;
-        }
-        console.log('%c' + msg, styling);
-        console.log('%c<<<<<<<<<<<<<<<<<<', 'color: #ddd;');
-    }
-}
-exports.Helpers = Helpers;
-
-},{}],2:[function(require,module,exports){
 (function (global){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const helpers_1 = require("../../modules/helpers");
+const helpers_1 = require("./modules/helpers");
 (function (root, factory) {
     if (typeof define === 'function' && define.amd) {
         define([], factory(root));
@@ -198,4 +100,102 @@ const helpers_1 = require("../../modules/helpers");
 });
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"../../modules/helpers":1}]},{},[2]);
+},{"./modules/helpers":2}],2:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+class Helpers {
+    constructor(pluginName = '') {
+        this.pluginName = pluginName;
+    }
+    static IsArray(item) {
+        return (item && Array.isArray(item));
+    }
+    ;
+    static IsObject(item) {
+        return (item && typeof item === 'object' && !Array.isArray(item));
+    }
+    ;
+    static ForEach(collection, callback, scope) {
+        if (Object.prototype.toString.call(collection) === '[object Object]') {
+            for (let prop in collection) {
+                if (Object.prototype.hasOwnProperty.call(collection, prop)) {
+                    callback.call(scope, collection[prop], prop, collection);
+                }
+            }
+        }
+        else {
+            for (let i = 0, len = collection.length; i < len; i++) {
+                callback.call(scope, collection[i], i, collection);
+            }
+        }
+    }
+    ;
+    static Extend(defaults, options) {
+        const extended = {};
+        this.ForEach(defaults, function (value, prop) {
+            extended[prop] = defaults[prop];
+        }, undefined);
+        this.ForEach(options, function (value, prop) {
+            extended[prop] = options[prop];
+        }, undefined);
+        return extended;
+    }
+    ;
+    static GetDataOptions(options) {
+        return !options || !(typeof JSON === 'object' && typeof JSON.parse === 'function') ? {} : JSON.parse(options);
+    }
+    ;
+    static GetClosest(elem, selector) {
+        const firstChar = selector.charAt(0);
+        for (; elem && elem !== document; elem = elem.parentNode) {
+            if (firstChar === '.') {
+                if (elem.classList.contains(selector.substr(1))) {
+                    return elem;
+                }
+            }
+            else if (firstChar === '#') {
+                if (elem.id === selector.substr(1)) {
+                    return elem;
+                }
+            }
+            else if (firstChar === '[') {
+                if (elem.hasAttribute(selector.substr(1, selector.length - 2))) {
+                    return elem;
+                }
+            }
+        }
+        return false;
+    }
+    ;
+    Log(msg, msgType) {
+        let styling = '';
+        console.log('%c>>>>>>>>>>>>>>>>>>', 'color: #ddd;');
+        console.log('%c' + this.pluginName, 'font-size: 14px;');
+        switch (msgType) {
+            case 'error':
+                styling = 'color: #f00;';
+                console.log('%c' + 'ERROR', styling);
+                break;
+            case 'warning':
+                styling = 'color: #f8e424;';
+                console.log('%c' + 'WARNING', styling);
+                break;
+            case 'info':
+                styling = 'color: #00f;';
+                console.log('%c' + 'INFO', styling);
+                break;
+            case 'success':
+                styling = 'color: #0f0;';
+                console.log('%c' + 'ERROR', styling);
+                break;
+            default:
+                styling = 'color: #8f8f8f;';
+                break;
+        }
+        console.log('%c' + msg, styling);
+        console.log('%c<<<<<<<<<<<<<<<<<<', 'color: #ddd;');
+    }
+}
+exports.Helpers = Helpers;
+
+},{}]},{},[1]);

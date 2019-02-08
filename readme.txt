@@ -18,4 +18,4 @@ uglifyjs dist/src/js/main.js -c > dist/src/js/bundle.min.js
 
 3. Compile new code and minify (pipe through uglifyjs):
 
-browserify src/js/main.ts -p [ tsify ] | uglifyjs > dist/src/js/bundle.min.js
+browserify src/js/main.ts -p [ tsify ] | uglifyjs > dist/js/bundle.min.js
