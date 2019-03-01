@@ -172,7 +172,7 @@ declare const module: any;
     const initEnv = function () {
         // check for custom env in settings
         if (settings.env && DataHelpers.Types.IsObject(settings.env)) {
-            DataHelpers.Collections.Extend(Environment, settings.env);
+            plugin_name.Env = DataHelpers.Collections.Extend(Environment, settings.env);
             DataHelpers.General.Log('[Success] Applied custom env settings.', 'success');
         }
 

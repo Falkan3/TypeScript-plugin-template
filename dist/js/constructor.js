@@ -71,7 +71,7 @@ const partial__api_requests_1 = require("./partials/partial__api_requests");
         };
         const initEnv = function () {
             if (settings.env && module__data_helpers_1.DataHelpers.Types.IsObject(settings.env)) {
-                module__data_helpers_1.DataHelpers.Collections.Extend(environment_example_1.Environment, settings.env);
+                plugin_name.Env = module__data_helpers_1.DataHelpers.Collections.Extend(environment_example_1.Environment, settings.env);
                 module__data_helpers_1.DataHelpers.General.Log('[Success] Applied custom env settings.', 'success');
             }
             environment_example_1.Environment.api.config.ws.active = environment_example_1.Environment.api.config.ws.active && !!window['WebSocket'];
