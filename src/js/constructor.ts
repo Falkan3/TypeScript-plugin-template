@@ -1,10 +1,10 @@
 /**
  *
- * TWD_SIPR v0.0.1
- * TrafficWatchdog Source Input Processor/Relay
+ * PluginName v0.0.1
+ * Description
  *
- * TrafficWatchdog source input plugin, by Adam Kocić (Falkan3).
- * https://trafficwatchdog.com
+ * Template by Adam Kocić (Falkan3).
+ * https://github.com/Falkan3
  *
  * ------------------------------------------
  *
@@ -16,9 +16,18 @@
  *
  */
 
+// libs
+
+// env
+import {Environment} from './config/environment.example';
 // standard modules
-import { Helpers } from "./modules/helpers";
+import {DateTimeHelpers} from "./modules/module__datetime_helpers";
+import {DataHelpers} from "./modules/module__data_helpers";
+import {URLHelpers} from "./modules/module__url_helpers";
 // custom modules
+
+// partials
+import {ApiRequests} from "./partials/partial__api_requests";
 
 
 declare const global: any;
@@ -32,10 +41,10 @@ declare const module: any;
     } else if (typeof exports === 'object') {
         module.exports = factory(root);
     } else {
-        // root.TWD_SIPR = factory(root);
+        // root.plugin_name = factory(root);
     }
 
-    root.TWD_SIPR = factory(root);
+    root.plugin_name = factory(root);
 })(typeof global !== "undefined" ? global : this.window || this.global, function (root) {
 
     'use strict';
@@ -45,13 +54,20 @@ declare const module: any;
     //
     const supports = !!document.querySelector && !!root.addEventListener; // Feature test
     const pluginName = 'TrafficWatchdog Source Input Processor/Relay',
-        pluginPrefix = 'TWD_SIPR',
+        pluginPrefix = 'plugin_name',
         pluginPrefixLowercase = pluginPrefix.toLowerCase();
 
     // Default settings
     const defaults = {
         someVar: 123,
         initClass: 'js-' + pluginPrefixLowercase,
+
+        env: null, // custom env object
+
+        /*************
+         * Callbacks
+         *************/
+
         callbackOnInit: function() {
             console.log('Init function callback');
         },
@@ -70,13 +86,12 @@ declare const module: any;
     };
 
     //
-    // Shared Methods
+    // Modules - Helpers
     //
 
     //
-    // Helpers
+    // Methods
     //
-    const helpers = new Helpers(pluginName);
 
     //
     // Constructor
@@ -89,8 +104,16 @@ declare const module: any;
         // Unique Variables
         //
 
-        const TWD_SIPR = <any>{}; // Object for public APIs
+        const plugin_name = <any>{}; // Object for public APIs
         let settings, eventTimeout;
+
+        // Make env publicly available
+        plugin_name.Env = Environment;
+
+        //
+        // Partials
+        //
+        const apiRequests = new ApiRequests(pluginName);
 
         //
         // Methods
@@ -104,7 +127,7 @@ declare const module: any;
          */
         const eventHandler = function (event) {
             const toggle = event.target;
-            const closest = Helpers.GetClosest(toggle, '[data-some-selector]');
+            const closest = DataHelpers.DOM.GetClosest(toggle, '[data-some-selector]');
             if (closest) {
                 // run methods
             }
@@ -114,7 +137,7 @@ declare const module: any;
          * Destroy the current initialization.
          * @public
          */
-        TWD_SIPR.destroy = function () {
+        plugin_name.destroy = function () {
 
             // If plugin isn't already initialized, stop
             if (!settings) return;
@@ -158,34 +181,55 @@ declare const module: any;
         };
 
         /**
+         * Initialize Environmental configuration - apply changes.
+         * @private
+         */
+        const initEnv = function () {
+            // check for custom env in settings
+            if (settings.env && DataHelpers.Types.IsObject(settings.env)) {
+                DataHelpers.Collections.Extend(Environment, settings.env);
+                DataHelpers.General.Log('[Success] Applied custom env settings.', 'success');
+            }
+
+            // supported
+            // websocket
+            Environment.api.config.ws.active = Environment.api.config.ws.active && !!window['WebSocket'];
+        };
+
+        /**
          * Initialize Plugin
          * @public
          * @param {Object} options User settings
          */
-        TWD_SIPR.init = function (options) {
+        plugin_name.init = function (options) {
             // feature test
             if (!supports) return;
 
             // Destroy any existing initializations
-            TWD_SIPR.destroy();
+            plugin_name.destroy();
 
             // Merge user options with defaults
-            settings = Helpers.Extend(defaults, options || {});
+            settings = DataHelpers.Collections.Extend(defaults, options || {});
+            // Make settings public
+            plugin_name.settings = settings;
+
+            // Init Environmental config
+            initEnv();
 
             // Add class to HTML element to activate conditional CSS
             document.documentElement.classList.add(settings.initClass);
 
             // @todo Do something...
-            helpers.Log('error message', 'error');
-            helpers.Log('warning message', 'warning');
-            helpers.Log('info message', 'info');
-            helpers.Log('default message', 'default');
+            DataHelpers.General.Log('error message', 'error');
+            DataHelpers.General.Log('warning message', 'warning');
+            DataHelpers.General.Log('info message', 'info');
+            DataHelpers.General.Log('default message', 'default');
 
             // Listen for events
             document.addEventListener('click', eventHandler, false);
 
             // On Init callback
-            TWD_SIPR.callbackCall('Init');
+            plugin_name.callbackCall('Init');
         };
 
         /**
@@ -193,14 +237,14 @@ declare const module: any;
          * @public
          * @param {String} callbackName callback's name
          */
-        TWD_SIPR.callbackCall = function (callbackName: string) {
+        plugin_name.callbackCall = function (callbackName: string) {
             const callback = settings[`callbackOn${callbackName}`];
             const callbackArray = settings[`callbackOn${callbackName}Array`];
             if (typeof callback === 'function') {
                 callback.call(this);
             }
-            if(Helpers.IsArray(callbackArray)) {
-                Helpers.ForEach(callbackArray, function(value, prop) {
+            if(DataHelpers.Types.IsArray(callbackArray)) {
+                DataHelpers.Collections.ForEach(callbackArray, function(value, prop) {
                     if (typeof callbackArray[prop] === 'function') {
                         callbackArray[prop].call(this);
                     }
@@ -209,7 +253,7 @@ declare const module: any;
         };
 
         // Return the public APIs
-        return TWD_SIPR;
+        return plugin_name;
     };
 
     //

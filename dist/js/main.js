@@ -1,6 +1,8 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const helpers_1 = require("./modules/helpers");
+const environment_example_1 = require("./config/environment.example");
+const module__data_helpers_1 = require("./modules/module__data_helpers");
+const partial__api_requests_1 = require("./partials/partial__api_requests");
 (function (root, factory) {
     if (typeof define === 'function' && define.amd) {
         define([], factory(root));
@@ -10,16 +12,17 @@ const helpers_1 = require("./modules/helpers");
     }
     else {
     }
-    root.TWD_SIPR = factory(root);
+    root.plugin_name = factory(root);
 })(typeof global !== "undefined" ? global : this.window || this.global, function (root) {
     'use strict';
-    const TWD_SIPR = {};
+    const plugin_name = {};
     const supports = !!document.querySelector && !!root.addEventListener;
     let settings, eventTimeout;
-    const pluginName = 'TrafficWatchdog Source Input Processor/Relay', pluginPrefix = 'TWD_SIPR', pluginPrefixLowercase = pluginPrefix.toLowerCase();
+    const pluginName = 'Plugin name', pluginPrefix = 'plugin_name', pluginPrefixLowercase = pluginPrefix.toLowerCase();
     const defaults = {
         someVar: 123,
         initClass: 'js-' + pluginPrefixLowercase,
+        env: null,
         callbackOnInit: function () {
             console.log('Init function callback');
         },
@@ -36,14 +39,15 @@ const helpers_1 = require("./modules/helpers");
         callbackOnDestroyAfter: function () {
         },
     };
-    const helpers = new helpers_1.Helpers(pluginName);
+    plugin_name.Env = environment_example_1.Environment;
+    const apiRequests = new partial__api_requests_1.ApiRequests(pluginName);
     const eventHandler = function (event) {
         const toggle = event.target;
-        const closest = helpers_1.Helpers.GetClosest(toggle, '[data-some-selector]');
+        const closest = module__data_helpers_1.DataHelpers.DOM.GetClosest(toggle, '[data-some-selector]');
         if (closest) {
         }
     };
-    TWD_SIPR.destroy = function () {
+    plugin_name.destroy = function () {
         if (!settings)
             return;
         if (typeof settings.callbackOnDestroyBefore === 'function') {
@@ -64,33 +68,42 @@ const helpers_1 = require("./modules/helpers");
             }, 66);
         }
     };
-    TWD_SIPR.init = function (options) {
+    const initEnv = function () {
+        if (settings.env && module__data_helpers_1.DataHelpers.Types.IsObject(settings.env)) {
+            module__data_helpers_1.DataHelpers.Collections.Extend(environment_example_1.Environment, settings.env);
+            module__data_helpers_1.DataHelpers.General.Log('[Success] Applied custom env settings.', 'success');
+        }
+        environment_example_1.Environment.api.config.ws.active = environment_example_1.Environment.api.config.ws.active && !!window['WebSocket'];
+    };
+    plugin_name.init = function (options) {
         if (!supports)
             return;
-        TWD_SIPR.destroy();
-        settings = helpers_1.Helpers.Extend(defaults, options || {});
+        plugin_name.destroy();
+        settings = module__data_helpers_1.DataHelpers.Collections.Extend(defaults, options || {});
+        plugin_name.settings = settings;
+        initEnv();
         document.documentElement.classList.add(settings.initClass);
-        helpers.Log('error message', 'error');
-        helpers.Log('warning message', 'warning');
-        helpers.Log('info message', 'info');
-        helpers.Log('default message', 'default');
+        module__data_helpers_1.DataHelpers.General.Log('error message', 'error');
+        module__data_helpers_1.DataHelpers.General.Log('warning message', 'warning');
+        module__data_helpers_1.DataHelpers.General.Log('info message', 'info');
+        module__data_helpers_1.DataHelpers.General.Log('default message', 'default');
         document.addEventListener('click', eventHandler, false);
-        TWD_SIPR.callbackCall('Init');
+        plugin_name.callbackCall('Init');
     };
-    TWD_SIPR.callbackCall = function (callbackName) {
+    plugin_name.callbackCall = function (callbackName) {
         const callback = settings[`callbackOn${callbackName}`];
         const callbackArray = settings[`callbackOn${callbackName}Array`];
         if (typeof callback === 'function') {
             callback.call(this);
         }
-        if (helpers_1.Helpers.IsArray(callbackArray)) {
-            helpers_1.Helpers.ForEach(callbackArray, function (value, prop) {
+        if (module__data_helpers_1.DataHelpers.Types.IsArray(callbackArray)) {
+            module__data_helpers_1.DataHelpers.Collections.ForEach(callbackArray, function (value, prop) {
                 if (typeof callbackArray[prop] === 'function') {
                     callbackArray[prop].call(this);
                 }
             }, this);
         }
     };
-    return TWD_SIPR;
+    return plugin_name;
 });
 //# sourceMappingURL=main.js.map

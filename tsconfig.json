@@ -6,13 +6,18 @@
     "removeComments": true,
     "preserveConstEnums": true,
     "sourceMap": true,
-    "outDir": "dist/js/"
+    "outDir": "dist/js/",
+    "allowSyntheticDefaultImports": true,
+    "resolveJsonModule": true,
+    "esModuleInterop": true
   },
   "exclude": [
-    "node_modules", "src/js/modules"
+    "node_modules",
+    "src/js/modules",
+    "src/js/partials",
+    "src/js/config"
   ],
   "files": [
-    "src/js/main.ts",
-    "src/js/constructor.ts"
+    "src/js/main.ts"
   ]
 }

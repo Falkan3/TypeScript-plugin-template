@@ -6,9 +6,11 @@ npm install tsify
 
 1. Compile new code:
 
-browserify src/js/main.ts -p [ tsify ] > dist/src/js/bundle.js
+browserify src/js/main.ts -p [ tsify ] > dist/js/bundle.js
+||
+browserify src/js/constructor.ts -p [ tsify ] > dist/js/constructor_bundle.js
 
-OR
+======== OR ========
 
 tsc
 
@@ -19,3 +21,11 @@ uglifyjs dist/src/js/main.js -c > dist/src/js/bundle.min.js
 3. Compile new code and minify (pipe through uglifyjs):
 
 browserify src/js/main.ts -p [ tsify ] | uglifyjs > dist/js/bundle.min.js
+||
+browserify src/js/constructor.ts -p [ tsify ] | uglifyjs > dist/js/constructor_bundle.min.js
+
+
+/**************************************************************************************************************/
+
+
+1. Check if the correct environment file is being imported (default file imported is environment.example)

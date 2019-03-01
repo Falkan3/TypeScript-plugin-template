@@ -83,7 +83,7 @@ class Helpers {
                 break;
             case 'success':
                 styling = 'color: #0f0;';
-                console.log('%c' + 'ERROR', styling);
+                console.log('%c' + 'SUCCESS', styling);
                 break;
             default:
                 styling = 'color: #8f8f8f;';
@@ -93,5 +93,32 @@ class Helpers {
         console.log('%c<<<<<<<<<<<<<<<<<<', 'color: #ddd;');
     }
 }
+Helpers.CookieSet = function (name, value, days) {
+    var expires = "";
+    if (days) {
+        var date = new Date();
+        date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+        expires = "; expires=" + date.toUTCString();
+    }
+    document.cookie = name + "=" + (value || "") + expires + "; path=/";
+};
+Helpers.CookieGet = function (name) {
+    var nameEQ = name + "=";
+    var ca = document.cookie.split(';');
+    for (var i = 0; i < ca.length; i++) {
+        var c = ca[i];
+        while (c.charAt(0) === ' ')
+            c = c.substring(1, c.length);
+        if (c.indexOf(nameEQ) === 0)
+            return c.substring(nameEQ.length, c.length);
+    }
+    return null;
+};
+Helpers.CookieErase = function (name, cPath, cDomain) {
+    document.cookie = encodeURIComponent(name) +
+        "=; expires=Thu, 01 Jan 1970 00:00:00 GMT" +
+        (cDomain ? "; domain=" + cDomain : "") +
+        (cPath ? "; path=" + cPath : "");
+};
 exports.Helpers = Helpers;
 //# sourceMappingURL=helpers.js.map
