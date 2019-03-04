@@ -4,6 +4,8 @@
  * Perform various formatting operations
  */
 
+import {TypeModule} from "./types";
+
 export class FormattersModule {
     /**
      * Add left padding to a number
@@ -16,9 +18,9 @@ export class FormattersModule {
     public static PadLeftNum = function (number: number, padCount: number = 1) {
         const _this = this;
 
-        if (!_this.IsNumber(number)) return number;
+        if (!TypeModule.IsNumber(number)) return number;
 
-        const numberLength = _this.NumberLength(number);
+        const numberLength = TypeModule.NumberLength(number);
 
         if (numberLength < padCount) {
             const padCountDiff = padCount - numberLength; // fill in only the difference between pad count and the given number's length

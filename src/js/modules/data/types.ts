@@ -18,7 +18,7 @@ export class TypeModule {
     }
 
     /**
-     * Check if an item is an array
+     * Return the numbers length
      * @public
      * @static
      * @param {Number} number - the number to check the length of

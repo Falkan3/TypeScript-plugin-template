@@ -5,6 +5,12 @@
  */
 // declare module "DateTimeHelpers" {}
 
+// libs
+
+// standard modules
+import {DataHelpers} from "./module__data_helpers";
+
+
 export class DateTimeHelpers {
 
     /**
@@ -17,12 +23,12 @@ export class DateTimeHelpers {
     public static GetISOTime = function (date: Date = new Date()) {
         const isoTime =
             date.getFullYear() +
-            '-' + this.zeroPadNum(date.getMonth() + 1) +
-            '-' + this.zeroPadNum(date.getDate()) +
-            ' ' + this.zeroPadNum(date.getHours()) +
-            ':' + this.zeroPadNum(date.getMinutes()) +
-            ':' + this.zeroPadNum(date.getSeconds()) +
-            '.' + this.zeroPadNum(date.getMilliseconds());
+            '-' + DataHelpers.Formatters.PadLeftNum(date.getMonth() + 1) +
+            '-' + DataHelpers.Formatters.PadLeftNum(date.getDate()) +
+            ' ' + DataHelpers.Formatters.PadLeftNum(date.getHours()) +
+            ':' + DataHelpers.Formatters.PadLeftNum(date.getMinutes()) +
+            ':' + DataHelpers.Formatters.PadLeftNum(date.getSeconds()) +
+            '.' + DataHelpers.Formatters.PadLeftNum(date.getMilliseconds());
         return isoTime;
     };
 }

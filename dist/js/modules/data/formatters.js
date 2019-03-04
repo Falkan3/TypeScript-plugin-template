@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+const types_1 = require("./types");
 class FormattersModule {
     static GetDataOptions(options) {
         return !options || !(typeof JSON === 'object' && typeof JSON.parse === 'function') ? {} : JSON.parse(options);
@@ -8,9 +9,9 @@ class FormattersModule {
 }
 FormattersModule.PadLeftNum = function (number, padCount = 1) {
     const _this = this;
-    if (!_this.IsNumber(number))
+    if (!types_1.TypeModule.IsNumber(number))
         return number;
-    const numberLength = _this.NumberLength(number);
+    const numberLength = types_1.TypeModule.NumberLength(number);
     if (numberLength < padCount) {
         const padCountDiff = padCount - numberLength;
         return "0".repeat(padCountDiff) + number;
