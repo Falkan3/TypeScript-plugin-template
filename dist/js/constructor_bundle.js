@@ -446,6 +446,10 @@ class FormattersModule {
         return !options || !(typeof JSON === 'object' && typeof JSON.parse === 'function') ? {} : JSON.parse(options);
     }
     ;
+    static EscapeRegExp(regExp) {
+        return regExp.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    }
+    ;
 }
 FormattersModule.PadLeftNum = function (number, padCount = 1) {
     const _this = this;
@@ -490,15 +494,19 @@ class TypeModule {
     static IsInteger(input) {
         return parseInt(input) === input;
     }
+    ;
     static IsFloat(input) {
         return parseFloat(input) === input;
     }
+    ;
     static IsNumber(input) {
         return this.IsInteger(input) || this.IsFloat(input);
     }
+    ;
     static NumberLength(number) {
         return Math.ceil(Math.log10(number + 1));
     }
+    ;
     static IsArray(item) {
         return (item && Array.isArray(item));
     }
@@ -510,6 +518,7 @@ class TypeModule {
     static IsElement(item) {
         return item instanceof Element || item instanceof HTMLDocument;
     }
+    ;
 }
 exports.TypeModule = TypeModule;
 
@@ -537,6 +546,7 @@ var DataHelpers;
         constructor(pluginName = '') {
             this.pluginName = pluginName;
         }
+        ;
         static Log(msg, msgType, pluginName = null) {
             let styling = '';
             console.log('%c>>>>>>>>>>>>>>>>>>', 'color: #ddd;');
@@ -567,6 +577,7 @@ var DataHelpers;
             console.log('%c' + msg, styling);
             console.log('%c<<<<<<<<<<<<<<<<<<', 'color: #ddd;');
         }
+        ;
     }
     General.CookieSet = function (name, value, days) {
         var expires = "";
@@ -622,6 +633,7 @@ class ApiRequests {
     constructor(pluginName = '') {
         this.pluginName = pluginName;
     }
+    ;
     sendRequest() {
         Axios.get(environment_example_1.Environment.api.urls.toDoList, {
             params: {
@@ -629,6 +641,7 @@ class ApiRequests {
             }
         });
     }
+    ;
     asyncSendRequest() {
         return __awaiter(this, void 0, void 0, function* () {
             try {
@@ -640,6 +653,7 @@ class ApiRequests {
             }
         });
     }
+    ;
     promiseSendRequest(onSuccess, onError, onFinished) {
         Axios.get(environment_example_1.Environment.api.urls.toDoList, {
             params: {
@@ -661,12 +675,14 @@ class ApiRequests {
             onFinished();
         });
     }
+    ;
     GetResponse(onSuccess = function () {
     }, onError = function () {
     }, onFinished = function () {
     }) {
         return this.promiseSendRequest(onSuccess, onError, onFinished);
     }
+    ;
 }
 exports.ApiRequests = ApiRequests;
 

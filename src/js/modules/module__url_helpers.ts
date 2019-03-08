@@ -38,7 +38,7 @@ export class URLHelpers {
             b[g[0]] = g[1]
         }
         return b
-    };
+    }
 
     /**
      * Get parameter from URL
@@ -64,7 +64,12 @@ export class URLHelpers {
         if (window.URLSearchParams) {
             const query = new URLSearchParams(window.location.search);
             DataHelpers.Collections.ForEach(params, function (_value, _prop) {
-                query.append(_prop, _value);
+                // check if the parameter already exists
+                if (!!query.get(_prop)) {
+                    query.set(_prop, _value);
+                } else {
+                    query.append(_prop, _value);
+                }
             }, this);
             return this.GetURLWithoutQuery(url) + '?' + query.toString();
         } else {
@@ -74,9 +79,8 @@ export class URLHelpers {
                 const key = encodeURIComponent(_prop);
                 const val = encodeURIComponent(_value);
 
-                var key_val = key + "=" + val;
-
-                var regex = new RegExp("(&|\\?)" + key + "=[^\&]*");
+                const key_val = key + "=" + val;
+                const regex = new RegExp("(&|\\?)" + key + "=[^\&]*");
 
                 query = query.replace(regex, "$1" + key_val);
 
@@ -85,7 +89,7 @@ export class URLHelpers {
                 }
             }, this);
 
-            return this.GetURLWithoutQuery(url) + '?' + query;
+            return this.GetURLWithoutQuery(url) + query;
         }
     }
 
@@ -100,6 +104,20 @@ export class URLHelpers {
         return url.split(/[?#]/)[0];
         // return [location.protocol, '//', location.host, location.pathname].join('');
         // return url.split('?')[0];
+    }
+
+    /**
+     * Remove query parameters from an URL
+     * @public
+     * @static
+     * @param {String} referrer - url to be checked
+     * @param {String} searchedDomain - domain to be matched (for example 'reddit.com')
+     * @return {Boolean} returns true if the referrer matches the given domain, otherwise false will be returned
+     */
+    public static MatchReferrer(referrer: string = document.referrer, searchedDomain: string) {
+        searchedDomain = DataHelpers.Formatters.EscapeRegExp(searchedDomain);
+        const regExp = RegExp(`^https?:\/\/([^\/]+\.)?${encodeURIComponent(searchedDomain)}(\/|$)`, 'i');
+        return referrer.match(regExp); // referrer.match(/^https?:\/\/([^\/]+\.)?reddit\.com(\/|$)/i);
     }
 
     /* ---------- */

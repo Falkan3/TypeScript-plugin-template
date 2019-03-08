@@ -6,6 +6,10 @@ class FormattersModule {
         return !options || !(typeof JSON === 'object' && typeof JSON.parse === 'function') ? {} : JSON.parse(options);
     }
     ;
+    static EscapeRegExp(regExp) {
+        return regExp.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    }
+    ;
 }
 FormattersModule.PadLeftNum = function (number, padCount = 1) {
     const _this = this;

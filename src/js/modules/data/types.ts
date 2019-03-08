@@ -7,15 +7,15 @@
 export class TypeModule {
     public static IsInteger(input) {
         return parseInt(input) === input;
-    }
+    };
 
     public static IsFloat(input) {
         return parseFloat(input) === input;
-    }
+    };
 
     public static IsNumber(input) {
         return this.IsInteger(input) || this.IsFloat(input);
-    }
+    };
 
     /**
      * Return the numbers length
@@ -26,7 +26,7 @@ export class TypeModule {
      */
     public static NumberLength(number: number) {
         return Math.ceil(Math.log10(number + 1));
-    }
+    };
 
     /**
      * Check if an item is an array
@@ -59,5 +59,5 @@ export class TypeModule {
      */
     public static IsElement(item: object) {
         return item instanceof Element || item instanceof HTMLDocument;
-    }
+    };
 }

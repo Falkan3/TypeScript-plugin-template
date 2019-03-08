@@ -17,7 +17,7 @@ export class ApiRequests {
 
     constructor(pluginName :string = '') {
         this.pluginName = pluginName;
-    }
+    };
 
     /**
      * Sends request to the API
@@ -29,7 +29,7 @@ export class ApiRequests {
                 ID: 12345
             }
         });
-    }
+    };
 
     /**
      * Sends request to the API. Async.
@@ -42,7 +42,7 @@ export class ApiRequests {
         } catch (error) {
             console.error(error);
         }
-    }
+    };
 
     /**
      * Sends request to the API
@@ -95,7 +95,7 @@ export class ApiRequests {
             // always executed
         });
         */
-    }
+    };
 
     /**
      * Sends request to the API
@@ -109,5 +109,5 @@ export class ApiRequests {
     }, onFinished: Function = function () {
     }) {
         return this.promiseSendRequest(onSuccess, onError, onFinished);
-    }
+    };
 }

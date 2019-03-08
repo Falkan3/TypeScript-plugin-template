@@ -80,5 +80,16 @@ export class FormattersModule {
             hash = hash & hash; // Convert to 32bit integer
         }
         return hash;
-    }
+    };
+
+    /**
+     * Return a string with regular expression syntax encoded for use in Regex
+     * @public
+     * @static
+     * @param  {String} regExp - input string to be encoded
+     * @returns {String}
+     */
+    public static EscapeRegExp(regExp: string) {
+        return regExp.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); // $& means the whole matched string
+    };
 }

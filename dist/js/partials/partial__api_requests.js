@@ -21,6 +21,7 @@ class ApiRequests {
     constructor(pluginName = '') {
         this.pluginName = pluginName;
     }
+    ;
     sendRequest() {
         Axios.get(environment_example_1.Environment.api.urls.toDoList, {
             params: {
@@ -28,6 +29,7 @@ class ApiRequests {
             }
         });
     }
+    ;
     asyncSendRequest() {
         return __awaiter(this, void 0, void 0, function* () {
             try {
@@ -39,6 +41,7 @@ class ApiRequests {
             }
         });
     }
+    ;
     promiseSendRequest(onSuccess, onError, onFinished) {
         Axios.get(environment_example_1.Environment.api.urls.toDoList, {
             params: {
@@ -60,12 +63,14 @@ class ApiRequests {
             onFinished();
         });
     }
+    ;
     GetResponse(onSuccess = function () {
     }, onError = function () {
     }, onFinished = function () {
     }) {
         return this.promiseSendRequest(onSuccess, onError, onFinished);
     }
+    ;
 }
 exports.ApiRequests = ApiRequests;
 //# sourceMappingURL=partial__api_requests.js.map

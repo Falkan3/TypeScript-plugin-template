@@ -21,6 +21,7 @@ var DataHelpers;
         constructor(pluginName = '') {
             this.pluginName = pluginName;
         }
+        ;
         static Log(msg, msgType, pluginName = null) {
             let styling = '';
             console.log('%c>>>>>>>>>>>>>>>>>>', 'color: #ddd;');
@@ -51,6 +52,7 @@ var DataHelpers;
             console.log('%c' + msg, styling);
             console.log('%c<<<<<<<<<<<<<<<<<<', 'color: #ddd;');
         }
+        ;
     }
     General.CookieSet = function (name, value, days) {
         var expires = "";

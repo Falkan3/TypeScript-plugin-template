@@ -40,7 +40,7 @@ export module DataHelpers {
 
         constructor(pluginName: string = '') {
             this.pluginName = pluginName;
-        }
+        };
 
         /*
          * Cookies
@@ -140,6 +140,6 @@ export module DataHelpers {
             }
             console.log('%c' + msg, styling);
             console.log('%c<<<<<<<<<<<<<<<<<<', 'color: #ddd;');
-        }
+        };
     }
 }

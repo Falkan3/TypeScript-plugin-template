@@ -18,7 +18,6 @@ class URLHelpers {
         }
         return b;
     }
-    ;
     static GetURLParameter(url = location.search, name) {
         return decodeURIComponent((new RegExp('[?|&]' + name + '=' + '([^&;]+?)(&|#|;|$)').exec(url) || [null, ''])[1].replace(/\+/g, '%20')) || null;
     }
@@ -26,7 +25,12 @@ class URLHelpers {
         if (window.URLSearchParams) {
             const query = new URLSearchParams(window.location.search);
             module__data_helpers_1.DataHelpers.Collections.ForEach(params, function (_value, _prop) {
-                query.append(_prop, _value);
+                if (!!query.get(_prop)) {
+                    query.set(_prop, _value);
+                }
+                else {
+                    query.append(_prop, _value);
+                }
             }, this);
             return this.GetURLWithoutQuery(url) + '?' + query.toString();
         }
@@ -35,18 +39,23 @@ class URLHelpers {
             module__data_helpers_1.DataHelpers.Collections.ForEach(params, function (_value, _prop) {
                 const key = encodeURIComponent(_prop);
                 const val = encodeURIComponent(_value);
-                var key_val = key + "=" + val;
-                var regex = new RegExp("(&|\\?)" + key + "=[^\&]*");
+                const key_val = key + "=" + val;
+                const regex = new RegExp("(&|\\?)" + key + "=[^\&]*");
                 query = query.replace(regex, "$1" + key_val);
                 if (!RegExp.$1) {
                     query += (query.length > 0 ? '&' : '?') + key_val;
                 }
             }, this);
-            return this.GetURLWithoutQuery(url) + '?' + query;
+            return this.GetURLWithoutQuery(url) + query;
         }
     }
     static GetURLWithoutQuery(url = window.location.href) {
         return url.split(/[?#]/)[0];
+    }
+    static MatchReferrer(referrer = document.referrer, searchedDomain) {
+        searchedDomain = module__data_helpers_1.DataHelpers.Formatters.EscapeRegExp(searchedDomain);
+        const regExp = RegExp(`^https?:\/\/([^\/]+\.)?${encodeURIComponent(searchedDomain)}(\/|$)`, 'i');
+        return referrer.match(regExp);
     }
     static HasSource(url = window.location.href) {
         const self = this;
