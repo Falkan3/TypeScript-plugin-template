@@ -14,7 +14,7 @@ export class CustomModuleHelpers {
      * @static
      * @return {Boolean} - test
      */
-    public static Test = function () {
+    public static Test() {
         return true;
     };
 }

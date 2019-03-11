@@ -54,7 +54,7 @@ export module DataHelpers {
          * @param  {String} value
          * @param  {number} days
          */
-        public static CookieSet = function (name: string, value: string, days: number) {
+        public static CookieSet(name: string, value: string, days: number) {
             var expires = "";
             if (days) {
                 var date = new Date();
@@ -71,7 +71,7 @@ export module DataHelpers {
          * @param  {String} name
          * @returns {String|null} retrieved cookie value
          */
-        public static CookieGet = function (name: string) {
+        public static CookieGet(name: string) {
             var nameEQ = name + "=";
             var ca = document.cookie.split(';');
             for (var i = 0; i < ca.length; i++) {
@@ -90,7 +90,7 @@ export module DataHelpers {
          * @param {String} cPath
          * @param {String} cDomain
          */
-        public static CookieErase = function (name: string, cPath: string, cDomain: string) {
+        public static CookieErase(name: string, cPath: string, cDomain: string) {
             // document.cookie = name + '=; Max-Age=-99999999;';
 
             document.cookie = encodeURIComponent(name) +

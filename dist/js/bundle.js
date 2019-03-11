@@ -437,10 +437,48 @@ exports.DOMModule = DOMModule;
 },{"../module__data_helpers":9}],7:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+const collections_1 = require("./collections");
 const types_1 = require("./types");
 class FormattersModule {
+    static PadLeftNum(number, padCount = 1) {
+        const _this = this;
+        if (!types_1.TypeModule.IsNumber(number))
+            return number;
+        const numberLength = types_1.TypeModule.NumberLength(number);
+        if (numberLength < padCount) {
+            const padCountDiff = padCount - numberLength;
+            return "0".repeat(padCountDiff) + number;
+        }
+        return number;
+    }
+    ;
     static GetDataOptions(options) {
         return !options || !(typeof JSON === 'object' && typeof JSON.parse === 'function') ? {} : JSON.parse(options);
+    }
+    ;
+    static ObjectToString(obj, prefix = null) {
+        const _this = this;
+        const formattedString = [];
+        collections_1.CollectionsModule.ForEach(obj, function (value, prop) {
+            const innPrefix = prefix ? prefix + "[" + prop + "]" : prop, innValue = value;
+            const formattedValue = (innValue !== null && types_1.TypeModule.IsObject(innValue)) ?
+                _this.ObjectToString(innValue, innPrefix) :
+                encodeURIComponent(innPrefix) + "=" + encodeURIComponent(innValue);
+            formattedString.push(formattedValue);
+        }, _this);
+        return formattedString.join("&");
+    }
+    ;
+    static HashString(string) {
+        let hash = 0;
+        if (string.length === 0)
+            return hash;
+        for (let i = 0; i < string.length; i++) {
+            const char = string.charCodeAt(i);
+            hash = ((hash << 5) - hash) + char;
+            hash = hash & hash;
+        }
+        return hash;
     }
     ;
     static EscapeRegExp(regExp) {
@@ -448,43 +486,9 @@ class FormattersModule {
     }
     ;
 }
-FormattersModule.PadLeftNum = function (number, padCount = 1) {
-    const _this = this;
-    if (!types_1.TypeModule.IsNumber(number))
-        return number;
-    const numberLength = types_1.TypeModule.NumberLength(number);
-    if (numberLength < padCount) {
-        const padCountDiff = padCount - numberLength;
-        return "0".repeat(padCountDiff) + number;
-    }
-    return number;
-};
-FormattersModule.ObjectToString = function (obj, prefix = null) {
-    const _this = this;
-    const formattedString = [];
-    _this.ForEach(obj, function (value, prop) {
-        const innPrefix = prefix ? prefix + "[" + prop + "]" : prop, innValue = value;
-        const formattedValue = (innValue !== null && _this.IsObject(innValue)) ?
-            _this.ObjectToString(innValue, innPrefix) :
-            encodeURIComponent(innPrefix) + "=" + encodeURIComponent(innValue);
-        formattedString.push(formattedValue);
-    }, _this);
-    return formattedString.join("&");
-};
-FormattersModule.HashString = function (string) {
-    let hash = 0;
-    if (string.length === 0)
-        return hash;
-    for (let i = 0; i < string.length; i++) {
-        const char = string.charCodeAt(i);
-        hash = ((hash << 5) - hash) + char;
-        hash = hash & hash;
-    }
-    return hash;
-};
 exports.FormattersModule = FormattersModule;
 
-},{"./types":8}],8:[function(require,module,exports){
+},{"./collections":5,"./types":8}],8:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 class TypeModule {
@@ -544,6 +548,36 @@ var DataHelpers;
             this.pluginName = pluginName;
         }
         ;
+        static CookieSet(name, value, days) {
+            var expires = "";
+            if (days) {
+                var date = new Date();
+                date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+                expires = "; expires=" + date.toUTCString();
+            }
+            document.cookie = name + "=" + (value || "") + expires + "; path=/";
+        }
+        ;
+        static CookieGet(name) {
+            var nameEQ = name + "=";
+            var ca = document.cookie.split(';');
+            for (var i = 0; i < ca.length; i++) {
+                var c = ca[i];
+                while (c.charAt(0) === ' ')
+                    c = c.substring(1, c.length);
+                if (c.indexOf(nameEQ) === 0)
+                    return c.substring(nameEQ.length, c.length);
+            }
+            return null;
+        }
+        ;
+        static CookieErase(name, cPath, cDomain) {
+            document.cookie = encodeURIComponent(name) +
+                "=; expires=Thu, 01 Jan 1970 00:00:00 GMT" +
+                (cDomain ? "; domain=" + cDomain : "") +
+                (cPath ? "; path=" + cPath : "");
+        }
+        ;
         static Log(msg, msgType, pluginName = null) {
             let styling = '';
             console.log('%c>>>>>>>>>>>>>>>>>>', 'color: #ddd;');
@@ -576,33 +610,6 @@ var DataHelpers;
         }
         ;
     }
-    General.CookieSet = function (name, value, days) {
-        var expires = "";
-        if (days) {
-            var date = new Date();
-            date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
-            expires = "; expires=" + date.toUTCString();
-        }
-        document.cookie = name + "=" + (value || "") + expires + "; path=/";
-    };
-    General.CookieGet = function (name) {
-        var nameEQ = name + "=";
-        var ca = document.cookie.split(';');
-        for (var i = 0; i < ca.length; i++) {
-            var c = ca[i];
-            while (c.charAt(0) === ' ')
-                c = c.substring(1, c.length);
-            if (c.indexOf(nameEQ) === 0)
-                return c.substring(nameEQ.length, c.length);
-        }
-        return null;
-    };
-    General.CookieErase = function (name, cPath, cDomain) {
-        document.cookie = encodeURIComponent(name) +
-            "=; expires=Thu, 01 Jan 1970 00:00:00 GMT" +
-            (cDomain ? "; domain=" + cDomain : "") +
-            (cPath ? "; path=" + cPath : "");
-    };
     DataHelpers.General = General;
 })(DataHelpers = exports.DataHelpers || (exports.DataHelpers = {}));
 

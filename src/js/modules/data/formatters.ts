@@ -4,6 +4,7 @@
  * Perform various formatting operations
  */
 
+import {CollectionsModule} from "./collections";
 import {TypeModule} from "./types";
 
 export class FormattersModule {
@@ -15,7 +16,7 @@ export class FormattersModule {
      * @param  {Number} padCount - the total length of number + padding
      * @returns {String|Number}
      */
-    public static PadLeftNum = function (number: number, padCount: number = 1) {
+    public static PadLeftNum(number: number, padCount: number = 1) {
         const _this = this;
 
         if (!TypeModule.IsNumber(number)) return number;
@@ -48,14 +49,14 @@ export class FormattersModule {
      * @param  {String} prefix - if specified, all parameters in the formatted string will be nested as prefix => parameter (e.g. prefix[param1]=param1_val&prefix[param2]=param2_val)
      * @returns {String}
      */
-    public static ObjectToString = function (obj: object, prefix = null) {
+    public static ObjectToString(obj: object, prefix = null) {
         const _this = this;
         const formattedString = [];
 
-        _this.ForEach(obj, function (value, prop) {
+        CollectionsModule.ForEach(obj, function (value, prop) {
             const innPrefix = prefix ? prefix + "[" + prop + "]" : prop, innValue = value;
 
-            const formattedValue = (innValue !== null && _this.IsObject(innValue)) ?
+            const formattedValue = (innValue !== null && TypeModule.IsObject(innValue)) ?
                 _this.ObjectToString(innValue, innPrefix) :
                 encodeURIComponent(innPrefix) + "=" + encodeURIComponent(innValue);
             formattedString.push(formattedValue);
@@ -71,7 +72,7 @@ export class FormattersModule {
      * @param  {String} string - input string to be hashed
      * @returns {String}
      */
-    public static HashString = function (string: string) {
+    public static HashString(string: string) {
         let hash = 0;
         if (string.length === 0) return hash;
         for (let i = 0; i < string.length; i++) {

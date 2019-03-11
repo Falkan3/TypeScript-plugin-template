@@ -20,7 +20,7 @@ export class DateTimeHelpers {
      * @param {Date} date - (optional) date to format
      * @return {String} - ISO formatted datetime
      */
-    public static GetISOTime = function (date: Date = new Date()) {
+    public static GetISOTime(date: Date = new Date()) {
         const isoTime =
             date.getFullYear() +
             '-' + DataHelpers.Formatters.PadLeftNum(date.getMonth() + 1) +
