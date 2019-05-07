@@ -2,6 +2,22 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const module__data_helpers_1 = require("../module__data_helpers");
 class DOMModule {
+    static DOMReady(callback) {
+        if (document.readyState === "loading") {
+            document.addEventListener('DOMContentLoaded', callback);
+        }
+        else {
+            callback();
+        }
+    }
+    static windowReady(callback) {
+        if (document.readyState === 'complete') {
+            callback();
+        }
+        else {
+            window.addEventListener('load', callback);
+        }
+    }
     static GetClosest(elem, selector) {
         const firstChar = selector.charAt(0);
         for (; elem && elem !== document; elem = elem.parentNode) {

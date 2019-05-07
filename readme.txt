@@ -1,8 +1,14 @@
 Required:
-npm install typescript
-npm install browserify
-npm install uglifyjs
-npm install tsify
+-----------------------------
+npm install browserify -g
+(npm install browserify-shim -- save)
+-----------------------------
+npm install typescript -g
+-----------------------------
+npm install tsify -g
+-----------------------------
+npm install uglify-js -g / uglify-es (old: uglifyjs)
+-----------------------------
 
 1. Compile new code:
 
@@ -24,6 +30,10 @@ browserify src/js/main.ts -p [ tsify ] | uglifyjs > dist/js/bundle.min.js
 ||
 browserify src/js/constructor.ts -p [ tsify ] | uglifyjs > dist/js/constructor_bundle.min.js
 
+4. Transpile - use Babel to transpile JS to ES5
+
+npx babel dist/js/bundle.js -o dist/js/bundle.normalized.js
+npx babel dist/js/bundle.min.js | uglifyjs > dist/js/bundle.normalized.min.js
 
 /**************************************************************************************************************/
 

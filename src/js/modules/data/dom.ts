@@ -8,6 +8,36 @@ import {DataHelpers} from "../module__data_helpers";
 
 export class DOMModule {
     /**
+     * Document ready event listener with callback
+     * @public
+     * @static
+     * @param {Function} callback - callback function to be called when document is ready
+     */
+    public static DOMReady(callback: () => void) {
+        if (document.readyState === "loading") {
+            document.addEventListener('DOMContentLoaded', callback);
+        }
+        else {
+            callback();
+        }
+    }
+
+    /**
+     * Window ready event listener with callback
+     * @public
+     * @static
+     * @param {Function} callback - callback function to be called when window is ready
+     */
+    public static windowReady(callback: () => void) {
+        if (document.readyState === 'complete') {
+            callback();
+        }
+        else {
+            window.addEventListener('load', callback);
+        }
+    }
+
+    /**
      * Get the closest matching element up the DOM tree
      * @public
      * @static
